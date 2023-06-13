@@ -6,7 +6,7 @@ using UnityEditor;
 public class RoomNodeSO : ScriptableObject
 {
     [HideInInspector] public string id;
-    [HideInInspector] public List<string> parentRoomNıdeIDList = new List<string>();
+    [HideInInspector] public List<string> parentRoomNodeIDList = new List<string>();
     [HideInInspector] public List<string> childRoomNodeIDList = new List<string>();
     [HideInInspector] public RoomNodeGraphSO roomNodeGraph;
     public RoomNodeTypeSO roomNodeType;
@@ -126,6 +126,15 @@ public class RoomNodeSO : ScriptableObject
         {
             ProcessLeftClickDownEvent();
         }
+        else if (currentEvent.button == 1)//This area for drawing line from node
+        {
+            ProcessRightClickDownEvent(currentEvent);
+        }
+    }
+
+    private void ProcessRightClickDownEvent(Event currentEvent)
+    {
+        roomNodeGraph.SetNodeToDrawConnectionLineFrom(this,currentEvent.mousePosition);//In node graph we executing draw line funct.
     }
 
     private void ProcessLeftClickDownEvent()
@@ -142,6 +151,19 @@ public class RoomNodeSO : ScriptableObject
         {
             isSelected = true;
         }
+    }
+
+    public bool AddChildRoomNodeIDToRoomNode(string childID)
+    {
+
+        childRoomNodeIDList.Add(childID);
+        return true;
+    }
+    public bool AddParentRoomNodeIDToRoomNode(string parentID)
+    {
+
+        parentRoomNodeIDList.Add(parentID);
+        return true;
     }
 
 #endif
